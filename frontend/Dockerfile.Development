@@ -1,0 +1,22 @@
+FROM node:18-alpine
+
+RUN mkdir -p /usr/src/nuxt-app
+WORKDIR /usr/src/nuxt-app
+
+COPY package.json .
+
+RUN yarn  
+
+COPY . .
+
+# VOLUME [ "/usr/src/nuxt-app" ]
+
+EXPOSE 3000
+
+ENV HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+# Override Chokidar pooling settings. It is important to make HMR work in WSL environment,
+ENV CHOKIDAR_USEPOLLING=true
+
+CMD [ "yarn", "dev" ]
